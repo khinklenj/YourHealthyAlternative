@@ -2,34 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { type ServiceCategory } from "@shared/schema";
 
-// Import generated service category images
-import acupunctureImg from "../assets/category-images/acupuncture.png";
-import naturopathyImg from "../assets/category-images/naturopathy.png";
-import massageImg from "../assets/category-images/massage.png";
-import chiropracticImg from "../assets/category-images/chiropractic.png";
-import ayurvedaImg from "../assets/category-images/ayurveda.png";
-import reikiImg from "../assets/category-images/reiki.png";
-import herbalImg from "../assets/category-images/herbalmedicine.png";
-import homeopathyImg from "../assets/category-images/homeopathy.png";
-import reflexologyImg from "../assets/category-images/reflexology.png";
-import aromatherapyImg from "../assets/category-images/aromatherapy.png";
-import meditationImg from "../assets/category-images/meditation.png";
-import craniosacralImg from "../assets/category-images/craniosacral.png";
-
-// Category ID to image mapping
+// Category ID to image mapping using public URLs
 const categoryImages: Record<string, string> = {
-  acupuncture: acupunctureImg,
-  naturopathy: naturopathyImg,
-  massage: massageImg,
-  chiropractic: chiropracticImg,
-  ayurveda: ayurvedaImg,
-  reiki: reikiImg,
-  herbalmedicine: herbalImg,
-  homeopathy: homeopathyImg,
-  reflexology: reflexologyImg,
-  aromatherapy: aromatherapyImg,
-  meditation: meditationImg,
-  craniosacral: craniosacralImg,
+  acupuncture: "/images/categories/acupuncture.png",
+  naturopathy: "/images/categories/naturopathy.png",
+  massage: "/images/categories/massage.png",
+  chiropractic: "/images/categories/chiropractic.png",
+  ayurveda: "/images/categories/ayurveda.png",
+  reiki: "/images/categories/reiki.png",
+  herbalmedicine: "/images/categories/herbalmedicine.png",
+  homeopathy: "/images/categories/homeopathy.png",
+  reflexology: "/images/categories/reflexology.png",
+  aromatherapy: "/images/categories/aromatherapy.png",
+  meditation: "/images/categories/meditation.png",
+  craniosacral: "/images/categories/craniosacral.png",
 };
 
 export default function ServiceCategories() {

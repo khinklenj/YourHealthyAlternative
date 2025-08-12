@@ -5,37 +5,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// Import hero images
-import wellnessCenterImg from "../assets/hero-images/wellness-center.png";
-import acupunctureSessionImg from "../assets/hero-images/acupuncture-session.png";
-import naturopathicConsultImg from "../assets/hero-images/naturopathic-consult.png";
-import massageRoomImg from "../assets/hero-images/massage-room.png";
-import holisticCenterImg from "../assets/hero-images/holistic-center.png";
-
 // Hero images array for rotation
 const heroImages = [
   {
-    src: wellnessCenterImg,
+    src: "/images/hero/wellness-center.png",
     alt: "Peaceful wellness center interior with natural lighting",
     title: "Modern Wellness Centers"
   },
   {
-    src: acupunctureSessionImg,
+    src: "/images/hero/acupuncture-session.png",
     alt: "Professional acupuncture treatment session",
     title: "Expert Acupuncture Care"
   },
   {
-    src: naturopathicConsultImg,
+    src: "/images/hero/naturopathic-consult.png",
     alt: "Naturopathic doctor consultation",
     title: "Naturopathic Medicine"
   },
   {
-    src: massageRoomImg,
+    src: "/images/hero/massage-room.png",
     alt: "Serene massage therapy room",
     title: "Therapeutic Massage"
   },
   {
-    src: holisticCenterImg,
+    src: "/images/hero/holistic-center.png",
     alt: "Holistic healing center environment",
     title: "Holistic Healthcare"
   }
