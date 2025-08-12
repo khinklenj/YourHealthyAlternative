@@ -8,14 +8,14 @@ import { Label } from "@/components/ui/label";
 export default function HeroSection() {
   const [, setLocation] = useLocation();
   const [searchData, setSearchData] = useState({
-    serviceType: "",
+    serviceType: "all",
     location: "",
     insurance: ""
   });
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (searchData.serviceType && searchData.serviceType !== "All Services") {
+    if (searchData.serviceType && searchData.serviceType !== "All Services" && searchData.serviceType !== "all") {
       params.append("serviceType", searchData.serviceType);
     }
     if (searchData.location) {
@@ -48,7 +48,7 @@ export default function HeroSection() {
                       <SelectValue placeholder="All Services" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="All Services">All Services</SelectItem>
+                      <SelectItem value="all">All Services</SelectItem>
                       <SelectItem value="Acupuncture">Acupuncture</SelectItem>
                       <SelectItem value="Naturopathy">Naturopathy</SelectItem>
                       <SelectItem value="Chiropractic">Chiropractic</SelectItem>

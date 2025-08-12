@@ -400,7 +400,7 @@ export class MemStorage implements IStorage {
           p.zipCode.includes(filters.location!)
         );
       }
-      if (filters.serviceType && filters.serviceType !== "All Services") {
+      if (filters.serviceType && filters.serviceType !== "All Services" && filters.serviceType !== "all") {
         providers = providers.filter(p => 
           p.specialty.toLowerCase().includes(filters.serviceType!.toLowerCase())
         );

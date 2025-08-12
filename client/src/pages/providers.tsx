@@ -8,7 +8,7 @@ import { type Provider } from "@shared/schema";
 
 export default function Providers() {
   const [filters, setFilters] = useState({
-    serviceType: "",
+    serviceType: "all",
     location: "",
     acceptsInsurance: false,
     newPatientsWelcome: false,

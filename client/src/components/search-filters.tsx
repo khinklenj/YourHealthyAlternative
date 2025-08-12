@@ -13,12 +13,19 @@ interface SearchFiltersProps {
     telehealthAvailable: boolean;
     eveningHours: boolean;
   };
-  onFiltersChange: (filters: any) => void;
+  onFiltersChange: (filters: {
+    serviceType: string;
+    location: string;
+    acceptsInsurance: boolean;
+    newPatientsWelcome: boolean;
+    telehealthAvailable: boolean;
+    eveningHours: boolean;
+  }) => void;
 }
 
 export default function SearchFilters({ filters, onFiltersChange }: SearchFiltersProps) {
   const updateFilter = (key: string, value: any) => {
-    onFiltersChange(prev => ({ ...prev, [key]: value }));
+    onFiltersChange({ ...filters, [key]: value });
   };
 
   const handleSearch = () => {
@@ -36,7 +43,7 @@ export default function SearchFilters({ filters, onFiltersChange }: SearchFilter
               <SelectValue placeholder="All Services" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Services</SelectItem>
+              <SelectItem value="all">All Services</SelectItem>
               <SelectItem value="Acupuncture">Acupuncture</SelectItem>
               <SelectItem value="Naturopathy">Naturopathy</SelectItem>
               <SelectItem value="Massage Therapy">Massage Therapy</SelectItem>

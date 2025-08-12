@@ -21,15 +21,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const filters = {
         serviceType: req.query.serviceType as string,
         location: req.query.location as string,
-        acceptsInsurance: req.query.acceptsInsurance === "true",
-        newPatientsWelcome: req.query.newPatientsWelcome === "true",
-        telehealthAvailable: req.query.telehealthAvailable === "true",
-        eveningHours: req.query.eveningHours === "true"
+        acceptsInsurance: req.query.acceptsInsurance === "true" ? true : undefined,
+        newPatientsWelcome: req.query.newPatientsWelcome === "true" ? true : undefined,
+        telehealthAvailable: req.query.telehealthAvailable === "true" ? true : undefined,
+        eveningHours: req.query.eveningHours === "true" ? true : undefined
       };
       
-      // Remove undefined values
+      // Remove undefined values but keep empty strings for serviceType and location
       const cleanFilters = Object.fromEntries(
-        Object.entries(filters).filter(([_, value]) => value !== undefined && value !== "")
+        Object.entries(filters).filter(([key, value]) => {
+          if (key === 'serviceType' || key === 'location') {
+            return value !== undefined;
+          }
+          return value !== undefined && value !== false;
+        })
       );
       
       const providers = await storage.getProviders(cleanFilters);
