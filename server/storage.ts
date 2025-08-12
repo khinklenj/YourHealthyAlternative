@@ -92,6 +92,62 @@ export class MemStorage implements IStorage {
         description: "Spinal adjustment and musculoskeletal treatment",
         icon: "fas fa-bone",
         providerCount: 298
+      },
+      {
+        id: "herbalmedicine",
+        name: "Herbal Medicine",
+        description: "Plant-based remedies and botanical treatments",
+        icon: "fas fa-spa",
+        providerCount: 143
+      },
+      {
+        id: "reiki",
+        name: "Reiki",
+        description: "Energy healing through gentle touch and meditation",
+        icon: "fas fa-hand-sparkles",
+        providerCount: 87
+      },
+      {
+        id: "ayurveda",
+        name: "Ayurveda",
+        description: "Ancient Indian holistic healing system",
+        icon: "fas fa-yin-yang",
+        providerCount: 72
+      },
+      {
+        id: "homeopathy",
+        name: "Homeopathy",
+        description: "Natural remedies using highly diluted substances",
+        icon: "fas fa-vial",
+        providerCount: 94
+      },
+      {
+        id: "reflexology",
+        name: "Reflexology",
+        description: "Pressure point therapy focusing on feet and hands",
+        icon: "fas fa-shoe-prints",
+        providerCount: 65
+      },
+      {
+        id: "aromatherapy",
+        name: "Aromatherapy",
+        description: "Essential oil therapy for wellness and relaxation",
+        icon: "fas fa-burn",
+        providerCount: 58
+      },
+      {
+        id: "craniosacral",
+        name: "Craniosacral Therapy",
+        description: "Gentle manipulation of skull and spine",
+        icon: "fas fa-head-side-brain",
+        providerCount: 41
+      },
+      {
+        id: "meditation",
+        name: "Meditation & Mindfulness",
+        description: "Mind-body practices for stress reduction and wellness",
+        icon: "fas fa-peace",
+        providerCount: 112
       }
     ];
 
@@ -228,6 +284,102 @@ export class MemStorage implements IStorage {
           { day: "Sunday", hours: "Closed" }
         ],
         nextAvailable: "Today 3:15 PM"
+      },
+      {
+        id: "provider-5",
+        name: "Dr. Priya Sharma",
+        specialty: "Ayurvedic Practitioner",
+        title: "BAMS",
+        bio: "Dr. Priya Sharma is a certified Ayurvedic practitioner with expertise in traditional Indian medicine, specializing in digestive health and stress management.",
+        experience: "12+ years experience • Ayurveda & Panchakarma",
+        philosophy: "Believes in balancing mind, body, and spirit through personalized Ayurvedic treatments and lifestyle modifications.",
+        phone: "(303) 555-0654",
+        email: "info@ayurvedawellness.com",
+        address: "Holistic Health Center, 567 Wellness Drive",
+        city: "Denver",
+        state: "CO",
+        zipCode: "80202",
+        rating: "4.8",
+        reviewCount: 73,
+        imageUrl: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        acceptsInsurance: false,
+        newPatientsWelcome: true,
+        telehealthAvailable: true,
+        eveningHours: false,
+        officeHours: [
+          { day: "Monday", hours: "9:00 AM - 6:00 PM" },
+          { day: "Tuesday", hours: "9:00 AM - 6:00 PM" },
+          { day: "Wednesday", hours: "9:00 AM - 6:00 PM" },
+          { day: "Thursday", hours: "9:00 AM - 6:00 PM" },
+          { day: "Friday", hours: "9:00 AM - 5:00 PM" },
+          { day: "Saturday", hours: "10:00 AM - 4:00 PM" },
+          { day: "Sunday", hours: "Closed" }
+        ],
+        nextAvailable: "Tomorrow 11:00 AM"
+      },
+      {
+        id: "provider-6",
+        name: "Emily Rodriguez",
+        specialty: "Reiki Master",
+        title: "RMT",
+        bio: "Emily Rodriguez is a certified Reiki Master and energy healer with training in multiple healing modalities including crystal therapy.",
+        experience: "7+ years experience • Reiki & Energy Healing",
+        philosophy: "Focuses on channeling universal life energy to promote healing, relaxation, and spiritual growth.",
+        phone: "(619) 555-0987",
+        email: "emily@energyhealingsd.com",
+        address: "Serenity Healing Space, 890 Harmony Lane",
+        city: "San Diego",
+        state: "CA",
+        zipCode: "92101",
+        rating: "4.9",
+        reviewCount: 42,
+        imageUrl: "https://images.unsplash.com/photo-1506629905607-53e103a5cbab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        acceptsInsurance: false,
+        newPatientsWelcome: true,
+        telehealthAvailable: true,
+        eveningHours: true,
+        officeHours: [
+          { day: "Monday", hours: "10:00 AM - 8:00 PM" },
+          { day: "Tuesday", hours: "10:00 AM - 8:00 PM" },
+          { day: "Wednesday", hours: "10:00 AM - 8:00 PM" },
+          { day: "Thursday", hours: "10:00 AM - 8:00 PM" },
+          { day: "Friday", hours: "10:00 AM - 6:00 PM" },
+          { day: "Saturday", hours: "9:00 AM - 5:00 PM" },
+          { day: "Sunday", hours: "11:00 AM - 4:00 PM" }
+        ],
+        nextAvailable: "Today 6:00 PM"
+      },
+      {
+        id: "provider-7",
+        name: "Dr. James Thompson",
+        specialty: "Homeopathic Doctor",
+        title: "DHM",
+        bio: "Dr. James Thompson specializes in classical homeopathy with over 15 years of experience treating chronic conditions naturally.",
+        experience: "15+ years experience • Classical Homeopathy",
+        philosophy: "Treats the whole person using individualized homeopathic remedies to stimulate the body's natural healing response.",
+        phone: "(503) 555-0321",
+        email: "info@portlandhomeopathy.com",
+        address: "Natural Medicine Clinic, 432 Holistic Way",
+        city: "Portland",
+        state: "OR",
+        zipCode: "97205",
+        rating: "4.7",
+        reviewCount: 98,
+        imageUrl: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600",
+        acceptsInsurance: true,
+        newPatientsWelcome: true,
+        telehealthAvailable: true,
+        eveningHours: false,
+        officeHours: [
+          { day: "Monday", hours: "8:00 AM - 5:00 PM" },
+          { day: "Tuesday", hours: "8:00 AM - 5:00 PM" },
+          { day: "Wednesday", hours: "8:00 AM - 5:00 PM" },
+          { day: "Thursday", hours: "8:00 AM - 5:00 PM" },
+          { day: "Friday", hours: "8:00 AM - 4:00 PM" },
+          { day: "Saturday", hours: "Closed" },
+          { day: "Sunday", hours: "Closed" }
+        ],
+        nextAvailable: "Tomorrow 2:00 PM"
       }
     ];
 
@@ -299,6 +451,60 @@ export class MemStorage implements IStorage {
         price: "85.00",
         duration: 30,
         categoryId: "chiropractic"
+      },
+      {
+        id: "service-8",
+        providerId: "provider-5",
+        name: "Ayurvedic Consultation",
+        description: "Comprehensive health assessment based on Ayurvedic principles",
+        price: "180.00",
+        duration: 90,
+        categoryId: "ayurveda"
+      },
+      {
+        id: "service-9",
+        providerId: "provider-5",
+        name: "Panchakarma Detox",
+        description: "Traditional Ayurvedic detoxification and rejuvenation therapy",
+        price: "300.00",
+        duration: 120,
+        categoryId: "ayurveda"
+      },
+      {
+        id: "service-10",
+        providerId: "provider-6",
+        name: "Reiki Energy Healing",
+        description: "Full body energy healing session with chakra balancing",
+        price: "95.00",
+        duration: 60,
+        categoryId: "reiki"
+      },
+      {
+        id: "service-11",
+        providerId: "provider-6",
+        name: "Crystal Therapy",
+        description: "Healing session using specific crystals and gemstones",
+        price: "110.00",
+        duration: 75,
+        categoryId: "reiki"
+      },
+      {
+        id: "service-12",
+        providerId: "provider-7",
+        name: "Homeopathic Consultation",
+        description: "Detailed health assessment and personalized remedy selection",
+        price: "160.00",
+        duration: 90,
+        categoryId: "homeopathy"
+      },
+      {
+        id: "service-13",
+        providerId: "provider-7",
+        name: "Constitutional Remedy",
+        description: "Deep-acting homeopathic treatment for chronic conditions",
+        price: "200.00",
+        duration: 120,
+        categoryId: "homeopathy"
       }
     ];
 
@@ -342,6 +548,33 @@ export class MemStorage implements IStorage {
         rating: 5,
         content: "Lisa is an amazing massage therapist. Her deep tissue work has helped me recover from sports injuries faster than I expected. Highly skilled and professional.",
         createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+        verified: true
+      },
+      {
+        id: "review-5",
+        providerId: "provider-5",
+        patientName: "Maria K.",
+        rating: 5,
+        content: "Dr. Sharma's Ayurvedic approach has transformed my digestive health. Her personalized treatment plan and dietary recommendations have made a huge difference in my overall well-being.",
+        createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+        verified: true
+      },
+      {
+        id: "review-6",
+        providerId: "provider-6",
+        patientName: "James P.",
+        rating: 5,
+        content: "Emily's Reiki sessions are incredible. I always leave feeling balanced and peaceful. Her energy work has helped me manage stress and anxiety much better.",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+        verified: true
+      },
+      {
+        id: "review-7",
+        providerId: "provider-7",
+        patientName: "Rebecca S.",
+        rating: 4,
+        content: "Dr. Thompson's homeopathic treatment has been very helpful for my chronic fatigue. He takes time to understand the whole picture and his remedies are gentle yet effective.",
+        createdAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000), // 12 days ago
         verified: true
       }
     ];
@@ -401,9 +634,25 @@ export class MemStorage implements IStorage {
         );
       }
       if (filters.serviceType && filters.serviceType !== "All Services" && filters.serviceType !== "all") {
-        providers = providers.filter(p => 
-          p.specialty.toLowerCase().includes(filters.serviceType!.toLowerCase())
-        );
+        providers = providers.filter(p => {
+          const specialty = p.specialty.toLowerCase();
+          const filterType = filters.serviceType!.toLowerCase();
+          
+          // Handle various specialty name variations
+          return specialty.includes(filterType) ||
+                 (filterType === "acupuncture" && specialty.includes("acupuncturist")) ||
+                 (filterType === "naturopathy" && specialty.includes("naturopathic")) ||
+                 (filterType === "massage therapy" && specialty.includes("massage")) ||
+                 (filterType === "chiropractic" && specialty.includes("chiropractic")) ||
+                 (filterType === "herbal medicine" && specialty.includes("herbalist")) ||
+                 (filterType === "reiki" && specialty.includes("reiki")) ||
+                 (filterType === "ayurveda" && specialty.includes("ayurvedic")) ||
+                 (filterType === "homeopathy" && specialty.includes("homeopathic")) ||
+                 (filterType === "reflexology" && specialty.includes("reflexologist")) ||
+                 (filterType === "aromatherapy" && specialty.includes("aromatherapist")) ||
+                 (filterType === "craniosacral therapy" && specialty.includes("craniosacral")) ||
+                 (filterType === "meditation" && specialty.includes("meditation"));
+        });
       }
     }
     
@@ -428,8 +677,15 @@ export class MemStorage implements IStorage {
 
   async getFeaturedProviders(): Promise<Provider[]> {
     return Array.from(this.providers.values())
-      .sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating))
-      .slice(0, 3);
+      .filter(p => parseFloat(p.rating) >= 4.7)
+      .sort((a, b) => {
+        const ratingDiff = parseFloat(b.rating) - parseFloat(a.rating);
+        if (ratingDiff === 0) {
+          return b.reviewCount - a.reviewCount;
+        }
+        return ratingDiff;
+      })
+      .slice(0, 4);
   }
 
   async getServicesByProvider(providerId: string): Promise<Service[]> {

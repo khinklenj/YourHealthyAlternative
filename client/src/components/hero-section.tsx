@@ -53,6 +53,12 @@ export default function HeroSection() {
                       <SelectItem value="Naturopathy">Naturopathy</SelectItem>
                       <SelectItem value="Chiropractic">Chiropractic</SelectItem>
                       <SelectItem value="Massage Therapy">Massage Therapy</SelectItem>
+                      <SelectItem value="Herbal Medicine">Herbal Medicine</SelectItem>
+                      <SelectItem value="Reiki">Reiki</SelectItem>
+                      <SelectItem value="Ayurveda">Ayurveda</SelectItem>
+                      <SelectItem value="Homeopathy">Homeopathy</SelectItem>
+                      <SelectItem value="Reflexology">Reflexology</SelectItem>
+                      <SelectItem value="Aromatherapy">Aromatherapy</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

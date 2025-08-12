@@ -36,12 +36,14 @@ The server handles provider search with filtering, appointment booking, and revi
 ### Data Storage Solutions
 
 **Database Schema** (designed for PostgreSQL via Drizzle):
-- **Providers**: Core provider information including specialties, contact details, availability
-- **Services**: Individual services offered by providers with pricing and duration
-- **Service Categories**: Hierarchical categorization of alternative medicine types
-- **Reviews**: Patient feedback and ratings system
+- **Providers**: Core provider information including specialties, contact details, availability (expanded to 7 providers)
+- **Services**: Individual services offered by providers with pricing and duration (13 services total)
+- **Service Categories**: Hierarchical categorization of alternative medicine types (12 categories)
+- **Reviews**: Patient feedback and ratings system (7 reviews total)
 - **Appointments**: Booking management with patient information
 - **Office Hours**: JSON-based flexible scheduling data
+
+**Service Categories** include: Acupuncture, Naturopathy, Massage Therapy, Chiropractic, Herbal Medicine, Reiki, Ayurveda, Homeopathy, Reflexology, Aromatherapy, Craniosacral Therapy, and Meditation & Mindfulness.
 
 The schema uses UUID primary keys and includes proper foreign key relationships.
 

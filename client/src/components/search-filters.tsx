@@ -50,6 +50,12 @@ export default function SearchFilters({ filters, onFiltersChange }: SearchFilter
               <SelectItem value="Chiropractic">Chiropractic</SelectItem>
               <SelectItem value="Herbal Medicine">Herbal Medicine</SelectItem>
               <SelectItem value="Reiki">Reiki</SelectItem>
+              <SelectItem value="Ayurveda">Ayurveda</SelectItem>
+              <SelectItem value="Homeopathy">Homeopathy</SelectItem>
+              <SelectItem value="Reflexology">Reflexology</SelectItem>
+              <SelectItem value="Aromatherapy">Aromatherapy</SelectItem>
+              <SelectItem value="Craniosacral Therapy">Craniosacral Therapy</SelectItem>
+              <SelectItem value="Meditation">Meditation & Mindfulness</SelectItem>
             </SelectContent>
           </Select>
         </div>
