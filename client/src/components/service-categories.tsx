@@ -3,18 +3,18 @@ import { useLocation } from "wouter";
 import { type ServiceCategory } from "@shared/schema";
 
 // Import generated service category images
-import acupunctureImg from "@assets/generated_images/Acupuncture_treatment_scene_4cb01807.png";
-import naturopathyImg from "@assets/generated_images/Naturopathy_herbs_and_oils_0af5d03b.png";
-import massageImg from "@assets/generated_images/Massage_therapy_session_1d833de8.png";
-import chiropracticImg from "@assets/generated_images/Chiropractic_spine_care_d1eeb1bd.png";
-import ayurvedaImg from "@assets/generated_images/Ayurvedic_healing_setup_0d3dbaaa.png";
-import reikiImg from "@assets/generated_images/Reiki_energy_healing_99bec1da.png";
-import herbalImg from "@assets/generated_images/Herbal_medicine_collection_ab5335e5.png";
-import homeopathyImg from "@assets/generated_images/Homeopathy_remedy_bottles_8eac6690.png";
-import reflexologyImg from "@assets/generated_images/Reflexology_foot_therapy_08f9bd8f.png";
-import aromatherapyImg from "@assets/generated_images/Aromatherapy_oils_setup_ef0241b9.png";
-import meditationImg from "@assets/generated_images/Meditation_mindfulness_practice_96edd41f.png";
-import craniosacralImg from "@assets/generated_images/Craniosacral_therapy_session_33572845.png";
+import acupunctureImg from "../assets/category-images/acupuncture.png";
+import naturopathyImg from "../assets/category-images/naturopathy.png";
+import massageImg from "../assets/category-images/massage.png";
+import chiropracticImg from "../assets/category-images/chiropractic.png";
+import ayurvedaImg from "../assets/category-images/ayurveda.png";
+import reikiImg from "../assets/category-images/reiki.png";
+import herbalImg from "../assets/category-images/herbalmedicine.png";
+import homeopathyImg from "../assets/category-images/homeopathy.png";
+import reflexologyImg from "../assets/category-images/reflexology.png";
+import aromatherapyImg from "../assets/category-images/aromatherapy.png";
+import meditationImg from "../assets/category-images/meditation.png";
+import craniosacralImg from "../assets/category-images/craniosacral.png";
 
 // Category ID to image mapping
 const categoryImages: Record<string, string> = {

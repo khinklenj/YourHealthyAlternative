@@ -6,11 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 // Import hero images
-import wellnessCenterImg from "@assets/generated_images/Wellness_center_interior_116b37e0.png";
-import acupunctureSessionImg from "@assets/generated_images/Acupuncture_treatment_session_3ef6916d.png";
-import naturopathicConsultImg from "@assets/generated_images/Naturopathic_consultation_11e21893.png";
-import massageRoomImg from "@assets/generated_images/Massage_therapy_room_10486ab3.png";
-import holisticCenterImg from "@assets/generated_images/Holistic_healing_center_c37428ae.png";
+import wellnessCenterImg from "../assets/hero-images/wellness-center.png";
+import acupunctureSessionImg from "../assets/hero-images/acupuncture-session.png";
+import naturopathicConsultImg from "../assets/hero-images/naturopathic-consult.png";
+import massageRoomImg from "../assets/hero-images/massage-room.png";
+import holisticCenterImg from "../assets/hero-images/holistic-center.png";
 
 // Hero images array for rotation
 const heroImages = [
