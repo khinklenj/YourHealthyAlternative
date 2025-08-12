@@ -1,17 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+// Import hero images
+import wellnessCenterImg from "@assets/generated_images/Wellness_center_interior_116b37e0.png";
+import acupunctureSessionImg from "@assets/generated_images/Acupuncture_treatment_session_3ef6916d.png";
+import naturopathicConsultImg from "@assets/generated_images/Naturopathic_consultation_11e21893.png";
+import massageRoomImg from "@assets/generated_images/Massage_therapy_room_10486ab3.png";
+import holisticCenterImg from "@assets/generated_images/Holistic_healing_center_c37428ae.png";
+
+// Hero images array for rotation
+const heroImages = [
+  {
+    src: wellnessCenterImg,
+    alt: "Peaceful wellness center interior with natural lighting",
+    title: "Modern Wellness Centers"
+  },
+  {
+    src: acupunctureSessionImg,
+    alt: "Professional acupuncture treatment session",
+    title: "Expert Acupuncture Care"
+  },
+  {
+    src: naturopathicConsultImg,
+    alt: "Naturopathic doctor consultation",
+    title: "Naturopathic Medicine"
+  },
+  {
+    src: massageRoomImg,
+    alt: "Serene massage therapy room",
+    title: "Therapeutic Massage"
+  },
+  {
+    src: holisticCenterImg,
+    alt: "Holistic healing center environment",
+    title: "Holistic Healthcare"
+  }
+];
+
 export default function HeroSection() {
   const [, setLocation] = useLocation();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [searchData, setSearchData] = useState({
     serviceType: "all",
     location: "",
     insurance: ""
   });
+
+  // Rotate images every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % heroImages.length
+      );
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -94,12 +142,40 @@ export default function HeroSection() {
               </Button>
             </div>
           </div>
-          <div className="hidden lg:block">
-            <img 
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-              alt="Serene wellness center interior" 
-              className="rounded-lg shadow-xl w-full h-auto"
-            />
+          <div className="hidden lg:block relative">
+            <div className="relative overflow-hidden rounded-lg shadow-xl bg-gray-200">
+              {heroImages.map((image, index) => (
+                <img 
+                  key={index}
+                  src={image.src}
+                  alt={image.alt}
+                  className={`absolute top-0 left-0 w-full h-[500px] object-cover transition-opacity duration-1000 ${
+                    index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
+              ))}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                <h3 className="text-white text-xl font-semibold transition-opacity duration-500">
+                  {heroImages[currentImageIndex].title}
+                </h3>
+              </div>
+            </div>
+            
+            {/* Image indicators */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {heroImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                    index === currentImageIndex 
+                      ? 'bg-white' 
+                      : 'bg-white/40 hover:bg-white/60'
+                  }`}
+                  aria-label={`View image ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
