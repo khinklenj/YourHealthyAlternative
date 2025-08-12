@@ -136,13 +136,19 @@ export default function HeroSection() {
             </div>
           </div>
           <div className="hidden lg:block relative">
-            <div className="relative overflow-hidden rounded-lg shadow-xl bg-gray-200">
+            <div className="relative overflow-hidden rounded-lg shadow-xl bg-gray-200 h-[500px]">
               {heroImages.map((image, index) => (
                 <img 
                   key={index}
                   src={image.src}
                   alt={image.alt}
-                  className={`absolute top-0 left-0 w-full h-[500px] object-cover transition-opacity duration-1000 ${
+                  loading="eager"
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${image.src}`);
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  onLoad={() => console.log(`Successfully loaded: ${image.src}`)}
+                  className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
                     index === currentImageIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
