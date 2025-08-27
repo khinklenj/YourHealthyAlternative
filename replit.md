@@ -1,8 +1,8 @@
-# Alternative Medicine Provider Platform
+# Your Healthy Alternative
 
 ## Overview
 
-This is a full-stack web application for connecting patients with alternative medicine providers. The platform allows users to browse providers by specialty (acupuncture, naturopathy, chiropractic, etc.), read reviews, and book appointments. It features a modern React frontend with a comprehensive provider directory and booking system.
+"Your Healthy Alternative" is a full-stack web application for connecting patients with alternative medicine providers. The platform allows users to browse providers by specialty (acupuncture, naturopathy, chiropractic, etc.), read reviews, and book appointments. It features a modern React frontend with a comprehensive provider directory, rotating hero images, and visual service categories.
 
 ## User Preferences
 
@@ -58,6 +58,18 @@ The schema uses UUID primary keys and includes proper foreign key relationships.
 - Home page with hero section, service categories, and featured providers
 - Provider search page with advanced filtering
 - Individual provider detail pages with booking capability
+
+### Visual Assets
+
+**Image Implementation**:
+- Hero section features 5 rotating wellness images (4-second intervals)
+- Service categories display custom generated images for each specialty
+- Images stored in client/public/images/ for direct URL access
+- Successful loading verified with browser console logging
+
+**Asset Structure**:
+- `/images/hero/` - 5 rotating hero images (wellness-center, acupuncture-session, etc.)
+- `/images/categories/` - 12 service category images matching specialties
 
 ### Development & Build Process
 

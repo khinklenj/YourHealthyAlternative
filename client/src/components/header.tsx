@@ -11,7 +11,7 @@ export default function Header() {
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link href="/" className="text-2xl font-bold text-primary-custom">
-                HealNaturally
+                Your Healthy Alternative
               </Link>
             </div>
             <nav className="hidden md:ml-8 md:flex md:space-x-8">
