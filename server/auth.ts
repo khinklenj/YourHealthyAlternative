@@ -88,6 +88,54 @@ export class AuthService {
 
     return user || null;
   }
+
+  async updateUser(userId: string, updateData: any): Promise<any> {
+    const updatedUser = await db
+      .update(users)
+      .set({
+        ...updateData,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId))
+      .returning();
+
+    if (!updatedUser.length) {
+      throw new Error('User not found');
+    }
+
+    const { password, ...userWithoutPassword } = updatedUser[0];
+    return userWithoutPassword;
+  }
+
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<boolean> {
+    // Get user with password
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId));
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Verify current password
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isValid) {
+      return false;
+    }
+
+    // Hash new password and update
+    const hashedNewPassword = await bcrypt.hash(newPassword, 12);
+    await db
+      .update(users)
+      .set({
+        password: hashedNewPassword,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+
+    return true;
+  }
 }
 
 export const authService = new AuthService();

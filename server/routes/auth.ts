@@ -97,4 +97,51 @@ router.get('/me', requireAuth, (req, res) => {
   res.json({ user: req.user });
 });
 
+// Update profile
+router.put('/profile', requireAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const { firstName, lastName, email, phone } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID not found' });
+    }
+
+    const updatedUser = await authService.updateUser(userId, {
+      firstName,
+      lastName,
+      email,
+      phone,
+    });
+
+    res.json({ message: 'Profile updated successfully', user: updatedUser });
+  } catch (error: any) {
+    console.error('Profile update error:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+// Change password
+router.put('/password', requireAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID not found' });
+    }
+
+    const success = await authService.changePassword(userId, currentPassword, newPassword);
+    
+    if (!success) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
+    }
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (error: any) {
+    console.error('Password change error:', error);
+    res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
 export default router;
