@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/lib/queryClient";
 import { type Provider, type Service } from "@shared/schema";
 
@@ -22,7 +23,18 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
   const [patientPhone, setPatientPhone] = useState("");
   
   const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
+
+  // Pre-populate form with user information when logged in
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setPatientName(`${user.firstName} ${user.lastName}`);
+      setPatientEmail(user.email || "");
+      // Note: phone is optional in user schema, so only set if available
+      // setPatientPhone(user.phone || "");
+    }
+  }, [isAuthenticated, user]);
 
   const bookingMutation = useMutation({
     mutationFn: async (appointmentData: any) => {
@@ -33,13 +45,15 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
         title: "Appointment Booked!",
         description: "Your appointment has been successfully scheduled. You will receive a confirmation email shortly.",
       });
-      // Reset form
+      // Reset form (but keep user info if logged in)
       setSelectedService("");
       setSelectedDate("");
       setSelectedTime("");
-      setPatientName("");
-      setPatientEmail("");
-      setPatientPhone("");
+      if (!isAuthenticated || !user) {
+        setPatientName("");
+        setPatientEmail("");
+        setPatientPhone("");
+      }
       queryClient.invalidateQueries({ queryKey: ["/api/providers"] });
     },
     onError: () => {
@@ -85,6 +99,14 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
   return (
     <div className="bg-gray-50 rounded-lg p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Book an Appointment</h3>
+      
+      {!isAuthenticated && (
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-800">
+            <strong>Tip:</strong> Sign in to automatically fill your contact information and manage your appointments.
+          </p>
+        </div>
+      )}
       
       <div className="space-y-4">
         <div>
@@ -132,7 +154,14 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
         </div>
 
         <div className="border-t pt-4">
-          <h4 className="font-medium text-gray-900 mb-3">Your Information</h4>
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="font-medium text-gray-900">Your Information</h4>
+            {isAuthenticated && user && (
+              <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+                Pre-filled from your account
+              </span>
+            )}
+          </div>
           
           <div className="space-y-3">
             <div>
