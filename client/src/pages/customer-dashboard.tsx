@@ -42,11 +42,11 @@ export default function CustomerDashboard() {
 
   const { data: dashboardData, isLoading: isDashboardLoading } = useQuery<{ appointments: Appointment[] }>({
     queryKey: ["/api/dashboard/customer"],
-    enabled: isAuthenticated && user?.userType === 'customer',
+    enabled: isAuthenticated && (user?.user?.userType || user?.userType) === 'customer',
   });
 
   useEffect(() => {
-    if (!isLoading && (!isAuthenticated || user?.userType !== 'customer')) {
+    if (!isLoading && (!isAuthenticated || (user?.user?.userType || user?.userType) !== 'customer')) {
       toast({
         title: "Access Denied",
         description: "Please sign in as a customer to access this page.",
@@ -70,7 +70,7 @@ export default function CustomerDashboard() {
     );
   }
 
-  if (!isAuthenticated || user?.userType !== 'customer') {
+  if (!isAuthenticated || (user?.user?.userType || user?.userType) !== 'customer') {
     return null;
   }
 

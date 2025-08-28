@@ -60,12 +60,12 @@ export default function Header() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="flex items-center gap-2" data-testid="button-user-menu">
                       <User className="h-4 w-4" />
-                      <span>{user?.firstName} {user?.lastName}</span>
+                      <span>{user?.user?.firstName || user?.firstName} {user?.user?.lastName || user?.lastName}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href={user?.userType === 'customer' ? '/dashboard/customer' : '/dashboard/provider'}>
+                      <Link href={(user?.user?.userType || user?.userType) === 'customer' ? '/dashboard/customer' : '/dashboard/provider'}>
                         <BarChart3 className="h-4 w-4 mr-2" />
                         Dashboard
                       </Link>
@@ -77,7 +77,7 @@ export default function Header() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                {user?.userType === 'customer' && (
+                {(user?.user?.userType || user?.userType) === 'customer' && (
                   <Link href="/join-provider">
                     <Button 
                       className="bg-primary-custom text-white hover:bg-primary-custom/90"
