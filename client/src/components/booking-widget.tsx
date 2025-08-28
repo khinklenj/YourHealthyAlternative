@@ -29,11 +29,12 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
   // Pre-populate form with user information when logged in
   useEffect(() => {
     if (isAuthenticated && user) {
-      console.log('Pre-populating user data:', user);
-      setPatientName(`${user.firstName} ${user.lastName}`);
-      setPatientEmail(user.email || "");
+      // Handle nested user object structure
+      const userData = user.user || user;
+      setPatientName(`${userData.firstName || ''} ${userData.lastName || ''}`.trim());
+      setPatientEmail(userData.email || "");
       // Note: phone is optional in user schema, so only set if available
-      // setPatientPhone(user.phone || "");
+      // setPatientPhone(userData.phone || "");
     }
   }, [isAuthenticated, user]);
 
