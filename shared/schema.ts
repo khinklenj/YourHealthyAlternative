@@ -1,7 +1,43 @@
-import { pgTable, text, varchar, integer, boolean, decimal, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, boolean, decimal, timestamp, jsonb, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
+
+// Authentication and user management tables
+export const sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull(),
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)],
+);
+
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").unique().notNull(),
+  password: varchar("password").notNull(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
+  userType: varchar("user_type").notNull(), // 'customer' or 'provider'
+  providerId: varchar("provider_id").references(() => providers.id), // Only for providers
+  profileImageUrl: varchar("profile_image_url"),
+  phone: varchar("phone"),
+  isEmailVerified: boolean("is_email_verified").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Profile analytics for providers
+export const profileViews = pgTable("profile_views", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  providerId: varchar("provider_id").notNull().references(() => providers.id),
+  viewerIp: varchar("viewer_ip"),
+  viewedAt: timestamp("viewed_at").defaultNow(),
+  source: varchar("source"), // 'search', 'direct', 'category'
+});
 
 export const serviceCategories = pgTable("service_categories", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -60,6 +96,7 @@ export const appointments = pgTable("appointments", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   providerId: varchar("provider_id").notNull().references(() => providers.id),
   serviceId: varchar("service_id").notNull().references(() => services.id),
+  customerId: varchar("customer_id").references(() => users.id), // Null for guest bookings
   patientName: text("patient_name").notNull(),
   patientEmail: text("patient_email").notNull(),
   patientPhone: text("patient_phone").notNull(),
@@ -69,11 +106,41 @@ export const appointments = pgTable("appointments", {
   createdAt: timestamp("created_at").defaultNow()
 });
 
+// Relations
+export const usersRelations = relations(users, ({ one, many }) => ({
+  provider: one(providers, { fields: [users.providerId], references: [providers.id] }),
+  appointments: many(appointments),
+}));
+
+export const providersRelations = relations(providers, ({ one, many }) => ({
+  user: one(users, { fields: [providers.id], references: [users.providerId] }),
+  services: many(services),
+  reviews: many(reviews),
+  appointments: many(appointments),
+  profileViews: many(profileViews),
+}));
+
+export const appointmentsRelations = relations(appointments, ({ one }) => ({
+  provider: one(providers, { fields: [appointments.providerId], references: [providers.id] }),
+  service: one(services, { fields: [appointments.serviceId], references: [services.id] }),
+  customer: one(users, { fields: [appointments.customerId], references: [users.id] }),
+}));
+
+export const profileViewsRelations = relations(profileViews, ({ one }) => ({
+  provider: one(providers, { fields: [profileViews.providerId], references: [providers.id] }),
+}));
+
 // Type definitions
 export type OfficeHours = {
   day: string;
   hours: string;
 };
+
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+
+export type ProfileView = typeof profileViews.$inferSelect;
+export type InsertProfileView = z.infer<typeof insertProfileViewSchema>;
 
 export type ServiceCategory = typeof serviceCategories.$inferSelect;
 export type InsertServiceCategory = z.infer<typeof insertServiceCategorySchema>;
@@ -91,6 +158,18 @@ export type Appointment = typeof appointments.$inferSelect;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 
 // Insert schemas
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  isEmailVerified: true
+});
+
+export const insertProfileViewSchema = createInsertSchema(profileViews).omit({
+  id: true,
+  viewedAt: true
+});
+
 export const insertServiceCategorySchema = createInsertSchema(serviceCategories).omit({
   id: true,
   providerCount: true
