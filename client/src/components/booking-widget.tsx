@@ -29,6 +29,7 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
   // Pre-populate form with user information when logged in
   useEffect(() => {
     if (isAuthenticated && user) {
+      console.log('Pre-populating user data:', user);
       setPatientName(`${user.firstName} ${user.lastName}`);
       setPatientEmail(user.email || "");
       // Note: phone is optional in user schema, so only set if available
