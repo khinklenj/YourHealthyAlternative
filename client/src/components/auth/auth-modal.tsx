@@ -18,11 +18,17 @@ export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }: Aut
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md" aria-describedby="auth-dialog-description">
         <DialogHeader>
           <DialogTitle className="sr-only">
             {activeTab === 'login' ? 'Sign In' : 'Create Account'}
           </DialogTitle>
+          <div id="auth-dialog-description" className="sr-only">
+            {activeTab === 'login' 
+              ? 'Sign in to your account to access your dashboard and manage appointments' 
+              : 'Create a new account to book appointments and access healthcare providers'
+            }
+          </div>
         </DialogHeader>
         
         {activeTab === 'login' ? (

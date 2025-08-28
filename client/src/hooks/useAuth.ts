@@ -35,11 +35,8 @@ export function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginData) => {
-      const response = await apiRequest("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      return response;
+      const response = await apiRequest("POST", "/api/auth/login", data);
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
@@ -48,11 +45,8 @@ export function useAuth() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterData) => {
-      const response = await apiRequest("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      return response;
+      const response = await apiRequest("POST", "/api/auth/register", data);
+      return await response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/me"] });
@@ -61,9 +55,7 @@ export function useAuth() {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("/api/auth/logout", {
-        method: "POST",
-      });
+      await apiRequest("POST", "/api/auth/logout");
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/auth/me"], null);
