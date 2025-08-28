@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Providers from "@/pages/providers";
 import ProviderDetail from "@/pages/provider-detail";
+import JoinProvider from "@/pages/join-provider";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/providers" component={Providers} />
       <Route path="/provider/:id" component={ProviderDetail} />
+      <Route path="/join-provider" component={JoinProvider} />
       <Route component={NotFound} />
     </Switch>
   );

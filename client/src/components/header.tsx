@@ -40,9 +40,14 @@ export default function Header() {
             <button className="text-warm-gray hover:text-primary-custom text-sm font-medium">
               Sign In
             </button>
-            <Button className="bg-primary-custom text-white hover:bg-primary-custom/90">
-              Join as Provider
-            </Button>
+            <Link href="/join-provider">
+              <Button 
+                className="bg-primary-custom text-white hover:bg-primary-custom/90"
+                data-testid="button-join-provider"
+              >
+                Join as Provider
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
