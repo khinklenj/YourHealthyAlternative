@@ -26,20 +26,29 @@ export default function ProfileSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Format phone number helper
+  const formatPhoneNumber = (phone: string) => {
+    if (!phone) return "";
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+    }
+    return phone;
+  };
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       firstName: user?.user?.firstName || "",
       lastName: user?.user?.lastName || "",
       email: user?.user?.email || "",
-      phone: "",
+      phone: formatPhoneNumber(user?.user?.phone || ""),
     },
   });
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: ProfileFormData) => {
-      const response = await apiRequest("PUT", "/api/auth/profile", data);
-      return await response.json();
+      return apiRequest("PUT", "/api/auth/profile", data);
     },
     onSuccess: () => {
       toast({
@@ -135,10 +144,14 @@ export default function ProfileSettings() {
               <Input
                 id="phone"
                 type="tel"
-                placeholder="Enter your phone number"
+                placeholder="(555) 123-4567"
                 className="pl-10"
                 data-testid="input-phone"
                 {...form.register("phone")}
+                onChange={(e) => {
+                  const formatted = formatPhoneNumber(e.target.value);
+                  form.setValue("phone", formatted);
+                }}
               />
             </div>
           </div>

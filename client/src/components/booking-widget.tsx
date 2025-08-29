@@ -29,6 +29,16 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
   const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
 
+  // Format phone number helper
+  const formatPhoneNumber = (phone: string) => {
+    if (!phone) return "";
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+    }
+    return phone;
+  };
+
   // Pre-populate form with user information when logged in
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -36,7 +46,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
       const userData = user.user || user;
       setPatientName(`${userData.firstName || ''} ${userData.lastName || ''}`.trim());
       setPatientEmail(userData.email || "");
-      setPatientPhone(userData.phone || "");
+      setPatientPhone(formatPhoneNumber(userData.phone || ""));
     } else {
       // Clear form when not authenticated
       setPatientName("");
