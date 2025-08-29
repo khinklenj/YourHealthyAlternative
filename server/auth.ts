@@ -8,6 +8,7 @@ export interface AuthenticatedUser {
   email: string;
   firstName: string;
   lastName: string;
+  phone?: string;
   userType: 'customer' | 'provider';
   providerId?: string;
 }
@@ -55,6 +56,7 @@ export class AuthService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      phone: user.phone || undefined,
       userType: user.userType as 'customer' | 'provider',
       providerId: user.providerId || undefined,
     };
@@ -75,6 +77,7 @@ export class AuthService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      phone: user.phone || undefined,
       userType: user.userType as 'customer' | 'provider',
       providerId: user.providerId || undefined,
     };

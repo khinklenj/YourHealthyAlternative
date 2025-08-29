@@ -42,7 +42,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
   // Pre-populate form with user information when logged in
   useEffect(() => {
     if (isAuthenticated && user) {
-      console.log("User data in booking widget:", user);
+
       // Handle nested user object structure
       const userData = user.user || user;
       setPatientName(`${userData.firstName || ''} ${userData.lastName || ''}`.trim());
