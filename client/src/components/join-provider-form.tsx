@@ -40,7 +40,7 @@ const providerRegistrationSchema = z.object({
   title: z.string().min(1, "Professional title is required"),
   specialties: z.array(z.string()).min(1, "Please select at least one specialty"),
   yearsExperience: z.string().min(1, "Please select your years of experience"),
-  licenses: z.string().min(1, "License information is required"),
+  licenses: z.string().optional(),
   
   // Practice Information
   clinicName: z.string().min(1, "Clinic/practice name is required"),
@@ -180,7 +180,7 @@ export default function JoinProviderForm() {
     
     switch (currentStep) {
       case 1:
-        fieldsToValidate = ['firstName', 'lastName', 'email', 'phone', 'title', 'specialties', 'yearsExperience', 'licenses'];
+        fieldsToValidate = ['firstName', 'lastName', 'email', 'phone', 'title', 'specialties', 'yearsExperience'];
         break;
       case 2:
         fieldsToValidate = ['clinicName', 'address', 'city', 'state', 'zipCode', 'languages'];
@@ -426,7 +426,7 @@ export default function JoinProviderForm() {
             )}
           </div>
           <div>
-            <Label htmlFor="licenses">License/Certification Numbers *</Label>
+            <Label htmlFor="licenses">License/Certification Numbers (Optional)</Label>
             <Input
               id="licenses"
               placeholder="e.g., LAc #12345, NMD #67890"
