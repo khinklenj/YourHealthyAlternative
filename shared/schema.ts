@@ -99,7 +99,7 @@ export const appointments = pgTable("appointments", {
   customerId: varchar("customer_id").references(() => users.id), // Null for guest bookings
   patientName: text("patient_name").notNull(),
   patientEmail: text("patient_email").notNull(),
-  patientPhone: text("patient_phone").notNull(),
+  patientPhone: text("patient_phone"),
   appointmentDate: timestamp("appointment_date").notNull(),
   status: text("status").notNull().default("scheduled"), // scheduled, completed, cancelled
   notes: text("notes"),

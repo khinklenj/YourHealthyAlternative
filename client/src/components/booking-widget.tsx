@@ -122,8 +122,8 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
       providerId: provider.id,
       serviceId: selectedService,
       patientName,
-      patientEmail,
-      patientPhone,
+      patientEmail: patientEmail || "",
+      patientPhone: patientPhone || "",
       appointmentDate: appointmentDate.toISOString(),
       status: "scheduled"
     });
