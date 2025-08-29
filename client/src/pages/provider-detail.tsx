@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 export default function ProviderDetail() {
   const { id } = useParams();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
 
   const { data: provider, isLoading: providerLoading } = useQuery<Provider>({
     queryKey: ["/api/providers", id],
@@ -149,7 +150,10 @@ export default function ProviderDetail() {
                 <BookingWidget 
                   provider={provider} 
                   services={services} 
-                  onAuthRequired={() => setAuthModalOpen(true)}
+                  onAuthRequired={(mode = 'login') => {
+                    setAuthMode(mode);
+                    setAuthModalOpen(true);
+                  }}
                 />
 
                 {/* Contact Info */}
@@ -197,7 +201,7 @@ export default function ProviderDetail() {
       <AuthModal 
         isOpen={authModalOpen}
         onClose={() => setAuthModalOpen(false)}
-        defaultTab="login"
+        defaultTab={authMode}
       />
     </div>
   );

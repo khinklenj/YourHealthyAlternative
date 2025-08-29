@@ -14,7 +14,7 @@ import { User, Shield, Lock } from "lucide-react";
 interface BookingWidgetProps {
   provider: Provider;
   services: Service[];
-  onAuthRequired?: () => void;
+  onAuthRequired?: (mode?: 'login' | 'register') => void;
 }
 
 export default function BookingWidget({ provider, services, onAuthRequired }: BookingWidgetProps) {
@@ -92,7 +92,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
         description: "Please sign in or create an account to book an appointment.",
         variant: "destructive",
       });
-      onAuthRequired?.();
+      onAuthRequired?.('login');
       return;
     }
 
@@ -256,7 +256,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
               </ul>
               <div className="space-y-2">
                 <Button
-                  onClick={() => onAuthRequired?.()}
+                  onClick={() => onAuthRequired?.('login')}
                   className="w-full bg-blue-600 text-white hover:bg-blue-700"
                   data-testid="button-sign-in"
                 >
@@ -264,7 +264,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
                 </Button>
                 <div className="text-center">
                   <button 
-                    onClick={() => onAuthRequired?.()}
+                    onClick={() => onAuthRequired?.('register')}
                     className="text-sm text-blue-600 hover:text-blue-800 underline"
                     data-testid="link-create-account"
                   >
