@@ -120,13 +120,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
     <div className="bg-gray-50 rounded-lg p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Book an Appointment</h3>
       
-      {!isAuthenticated && (
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-800">
-            <strong>Tip:</strong> Sign in to automatically fill your contact information and manage your appointments.
-          </p>
-        </div>
-      )}
+
       
       <div className="space-y-4">
         <div>
@@ -176,18 +170,11 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
         <div className="border-t pt-4">
           <div className="flex items-center justify-between mb-3">
             <h4 className="font-medium text-gray-900">Your Information</h4>
-            {isAuthenticated && user && (
-              <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
-                Pre-filled from your account
-              </span>
-            )}
           </div>
           
           <div className="space-y-3">
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
-              </Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
               <Input 
                 type="text" 
                 placeholder={isAuthenticated ? "" : "Enter your full name"}
@@ -198,18 +185,10 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
                 disabled={isAuthenticated}
                 data-testid="input-patient-name"
               />
-              {isAuthenticated && (
-                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
-                  <Shield className="h-3 w-3" />
-                  Pre-filled from your account
-                </div>
-              )}
             </div>
             
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">
-                Email {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
-              </Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Email</Label>
               <Input 
                 type="email" 
                 placeholder={isAuthenticated ? "" : "Enter your email"}
@@ -220,18 +199,10 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
                 disabled={isAuthenticated}
                 data-testid="input-patient-email"
               />
-              {isAuthenticated && (
-                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
-                  <Shield className="h-3 w-3" />
-                  Pre-filled from your account
-                </div>
-              )}
             </div>
             
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
-              </Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">Phone</Label>
               <Input 
                 type="tel" 
                 placeholder={isAuthenticated ? (patientPhone || "Add phone number in your profile") : "Enter your phone number"}
@@ -242,12 +213,6 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
                 disabled={isAuthenticated}
                 data-testid="input-patient-phone"
               />
-              {isAuthenticated && (
-                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
-                  <Shield className="h-3 w-3" />
-                  {patientPhone ? "Pre-filled from your account" : "Update your profile to add phone number"}
-                </div>
-              )}
             </div>
           </div>
         </div>
