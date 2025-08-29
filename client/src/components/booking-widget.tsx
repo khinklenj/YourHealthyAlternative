@@ -4,17 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/lib/queryClient";
 import { type Provider, type Service } from "@shared/schema";
+import { User, Shield, Lock } from "lucide-react";
 
 interface BookingWidgetProps {
   provider: Provider;
   services: Service[];
+  onAuthRequired?: () => void;
 }
 
-export default function BookingWidget({ provider, services }: BookingWidgetProps) {
+export default function BookingWidget({ provider, services, onAuthRequired }: BookingWidgetProps) {
   const [selectedService, setSelectedService] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
@@ -33,8 +36,12 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
       const userData = user.user || user;
       setPatientName(`${userData.firstName || ''} ${userData.lastName || ''}`.trim());
       setPatientEmail(userData.email || "");
-      // Note: phone is optional in user schema, so only set if available
-      // setPatientPhone(userData.phone || "");
+      setPatientPhone(userData.phone || "");
+    } else {
+      // Clear form when not authenticated
+      setPatientName("");
+      setPatientEmail("");
+      setPatientPhone("");
     }
   }, [isAuthenticated, user]);
 
@@ -68,6 +75,17 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
   });
 
   const handleBooking = () => {
+    // Force authentication before booking
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in or create an account to book an appointment.",
+        variant: "destructive",
+      });
+      onAuthRequired?.();
+      return;
+    }
+
     if (!selectedService || !selectedDate || !selectedTime || !patientName || !patientEmail || !patientPhone) {
       toast({
         title: "Missing Information",
@@ -167,47 +185,115 @@ export default function BookingWidget({ provider, services }: BookingWidgetProps
           
           <div className="space-y-3">
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
+              </Label>
               <Input 
                 type="text" 
-                placeholder="Enter your full name"
+                placeholder={isAuthenticated ? "" : "Enter your full name"}
                 value={patientName}
                 onChange={(e) => setPatientName(e.target.value)}
                 className="w-full"
+                readOnly={isAuthenticated}
+                disabled={isAuthenticated}
+                data-testid="input-patient-name"
               />
+              {isAuthenticated && (
+                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  Pre-filled from your account
+                </div>
+              )}
             </div>
             
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Email</Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">
+                Email {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
+              </Label>
               <Input 
                 type="email" 
-                placeholder="Enter your email"
+                placeholder={isAuthenticated ? "" : "Enter your email"}
                 value={patientEmail}
                 onChange={(e) => setPatientEmail(e.target.value)}
                 className="w-full"
+                readOnly={isAuthenticated}
+                disabled={isAuthenticated}
+                data-testid="input-patient-email"
               />
+              {isAuthenticated && (
+                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  Pre-filled from your account
+                </div>
+              )}
             </div>
             
             <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Phone</Label>
+              <Label className="block text-sm font-medium text-gray-700 mb-1">
+                Phone {isAuthenticated && <span className="text-xs text-green-600 ml-1">(From your account)</span>}
+              </Label>
               <Input 
                 type="tel" 
-                placeholder="Enter your phone number"
+                placeholder={isAuthenticated ? (patientPhone || "Add phone number in your profile") : "Enter your phone number"}
                 value={patientPhone}
                 onChange={(e) => setPatientPhone(e.target.value)}
                 className="w-full"
+                readOnly={isAuthenticated}
+                disabled={isAuthenticated}
+                data-testid="input-patient-phone"
               />
+              {isAuthenticated && (
+                <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  {patientPhone ? "Pre-filled from your account" : "Update your profile to add phone number"}
+                </div>
+              )}
             </div>
           </div>
         </div>
         
-        <Button 
-          onClick={handleBooking}
-          disabled={bookingMutation.isPending}
-          className="w-full bg-primary-custom text-white hover:bg-primary-custom/90"
-        >
-          {bookingMutation.isPending ? "Booking..." : "Book Appointment"}
-        </Button>
+        {!isAuthenticated ? (
+          <div className="space-y-3">
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Lock className="h-5 w-5 text-blue-600" />
+                <h4 className="font-medium text-blue-900">Authentication Required</h4>
+              </div>
+              <p className="text-sm text-blue-800 mb-3">
+                To book an appointment, you need to sign in or create an account. This helps us:
+              </p>
+              <ul className="text-xs text-blue-700 list-disc list-inside space-y-1 mb-3">
+                <li>Securely store your appointment information</li>
+                <li>Send appointment confirmations and reminders</li>
+                <li>Allow you to manage your bookings</li>
+              </ul>
+              <Button
+                onClick={() => onAuthRequired?.()}
+                className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                data-testid="button-auth-required"
+              >
+                Sign In or Create Account
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Button 
+            onClick={handleBooking}
+            disabled={bookingMutation.isPending || !patientPhone}
+            className="w-full bg-primary-custom text-white hover:bg-primary-custom/90"
+            data-testid="button-book-appointment"
+          >
+            {bookingMutation.isPending ? "Booking..." : "Book Appointment"}
+          </Button>
+        )}
+        
+        {isAuthenticated && !patientPhone && (
+          <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-sm text-amber-800">
+              <strong>Phone number required:</strong> Please add your phone number in your profile settings to complete the booking.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

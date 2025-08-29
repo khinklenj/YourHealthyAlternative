@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import BookingWidget from "@/components/booking-widget";
 import ReviewSection from "@/components/review-section";
+import AuthModal from "@/components/auth/auth-modal";
 import { type Provider, type Service } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 
 export default function ProviderDetail() {
   const { id } = useParams();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const { data: provider, isLoading: providerLoading } = useQuery<Provider>({
     queryKey: ["/api/providers", id],
@@ -143,7 +146,11 @@ export default function ProviderDetail() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Booking Widget */}
-                <BookingWidget provider={provider} services={services} />
+                <BookingWidget 
+                  provider={provider} 
+                  services={services} 
+                  onAuthRequired={() => setAuthModalOpen(true)}
+                />
 
                 {/* Contact Info */}
                 <div className="bg-gray-50 rounded-lg p-6">
@@ -186,6 +193,12 @@ export default function ProviderDetail() {
       </div>
 
       <Footer />
+      
+      <AuthModal 
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        defaultTab="login"
+      />
     </div>
   );
 }
