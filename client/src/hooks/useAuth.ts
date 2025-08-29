@@ -11,6 +11,10 @@ export interface User {
   providerId?: string;
 }
 
+export interface AuthResponse {
+  user: User;
+}
+
 export interface LoginData {
   email: string;
   password: string;
@@ -28,7 +32,7 @@ export interface RegisterData {
 export function useAuth() {
   const queryClient = useQueryClient();
 
-  const { data: user, isLoading, error } = useQuery<User>({
+  const { data: user, isLoading, error } = useQuery<AuthResponse>({
     queryKey: ["/api/auth/me"],
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
