@@ -96,10 +96,20 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
       return;
     }
 
-    if (!selectedService || !selectedDate || !selectedTime || !patientName || !patientEmail || !patientPhone) {
+    if (!selectedService || !selectedDate || !selectedTime || !patientName) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields to book your appointment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Require either phone or email
+    if (!patientEmail && !patientPhone) {
+      toast({
+        title: "Contact Information Required",
+        description: "Please provide either an email address or phone number.",
         variant: "destructive",
       });
       return;
@@ -177,55 +187,57 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
           </div>
         </div>
 
-        <div className="border-t pt-4">
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="font-medium text-gray-900">Your Information</h4>
-          </div>
-          
-          <div className="space-y-3">
-            <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
-              <Input 
-                type="text" 
-                placeholder={isAuthenticated ? "" : "Enter your full name"}
-                value={patientName}
-                onChange={(e) => setPatientName(e.target.value)}
-                className="w-full"
-                readOnly={isAuthenticated}
-                disabled={isAuthenticated}
-                data-testid="input-patient-name"
-              />
+        {isAuthenticated && (
+          <div className="border-t pt-4">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="font-medium text-gray-900">Your Information</h4>
             </div>
             
-            <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Email</Label>
-              <Input 
-                type="email" 
-                placeholder={isAuthenticated ? "" : "Enter your email"}
-                value={patientEmail}
-                onChange={(e) => setPatientEmail(e.target.value)}
-                className="w-full"
-                readOnly={isAuthenticated}
-                disabled={isAuthenticated}
-                data-testid="input-patient-email"
-              />
-            </div>
-            
-            <div>
-              <Label className="block text-sm font-medium text-gray-700 mb-1">Phone</Label>
-              <Input 
-                type="tel" 
-                placeholder={isAuthenticated ? (patientPhone || "Add phone number in your profile") : "Enter your phone number"}
-                value={patientPhone}
-                onChange={(e) => setPatientPhone(e.target.value)}
-                className="w-full"
-                readOnly={isAuthenticated}
-                disabled={isAuthenticated}
-                data-testid="input-patient-phone"
-              />
+            <div className="space-y-3">
+              <div>
+                <Label className="block text-sm font-medium text-gray-700 mb-1">Full Name</Label>
+                <Input 
+                  type="text" 
+                  placeholder=""
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  className="w-full"
+                  readOnly={true}
+                  disabled={true}
+                  data-testid="input-patient-name"
+                />
+              </div>
+              
+              <div>
+                <Label className="block text-sm font-medium text-gray-700 mb-1">Email</Label>
+                <Input 
+                  type="email" 
+                  placeholder=""
+                  value={patientEmail}
+                  onChange={(e) => setPatientEmail(e.target.value)}
+                  className="w-full"
+                  readOnly={true}
+                  disabled={true}
+                  data-testid="input-patient-email"
+                />
+              </div>
+              
+              <div>
+                <Label className="block text-sm font-medium text-gray-700 mb-1">Phone</Label>
+                <Input 
+                  type="tel" 
+                  placeholder={patientPhone || "Add phone number in your profile"}
+                  value={patientPhone}
+                  onChange={(e) => setPatientPhone(e.target.value)}
+                  className="w-full"
+                  readOnly={true}
+                  disabled={true}
+                  data-testid="input-patient-phone"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
         
         {!isAuthenticated ? (
           <div className="space-y-3">
@@ -242,19 +254,30 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
                 <li>Send appointment confirmations and reminders</li>
                 <li>Allow you to manage your bookings</li>
               </ul>
-              <Button
-                onClick={() => onAuthRequired?.()}
-                className="w-full bg-blue-600 text-white hover:bg-blue-700"
-                data-testid="button-auth-required"
-              >
-                Sign In or Create Account
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  onClick={() => onAuthRequired?.()}
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                  data-testid="button-sign-in"
+                >
+                  Sign In
+                </Button>
+                <div className="text-center">
+                  <button 
+                    onClick={() => onAuthRequired?.()}
+                    className="text-sm text-blue-600 hover:text-blue-800 underline"
+                    data-testid="link-create-account"
+                  >
+                    Create Account
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
           <Button 
             onClick={handleBooking}
-            disabled={bookingMutation.isPending || !patientPhone}
+            disabled={bookingMutation.isPending || (!patientEmail && !patientPhone)}
             className="w-full bg-primary-custom text-white hover:bg-primary-custom/90"
             data-testid="button-book-appointment"
           >
@@ -262,10 +285,10 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
           </Button>
         )}
         
-        {isAuthenticated && !patientPhone && (
+        {isAuthenticated && !patientEmail && !patientPhone && (
           <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
             <p className="text-sm text-amber-800">
-              <strong>Phone number required:</strong> Please add your phone number in your profile settings to complete the booking.
+              <strong>Contact information required:</strong> Please add either an email address or phone number in your profile settings to complete the booking.
             </p>
           </div>
         )}
