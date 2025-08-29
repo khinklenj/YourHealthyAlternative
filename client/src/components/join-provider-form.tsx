@@ -14,6 +14,20 @@ import { Badge } from "@/components/ui/badge";
 import { X, Plus, MapPin, Phone, Mail, Globe, Clock, DollarSign, Award, User, Building2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Phone number formatting utility
+const formatPhoneNumber = (value: string) => {
+  // Remove all non-numeric characters
+  const phoneNumber = value.replace(/[^\d]/g, '');
+  
+  // Limit to 10 digits
+  const phoneNumberLength = phoneNumber.length;
+  if (phoneNumberLength < 4) return phoneNumber;
+  if (phoneNumberLength < 7) {
+    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+  }
+  return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+};
+
 // Form validation schema
 const providerRegistrationSchema = z.object({
   // Personal Information
@@ -160,8 +174,20 @@ export default function JoinProviderForm() {
 
   const onSubmit = async (data: ProviderRegistrationForm) => {
     try {
-      // Here you would typically send the data to your backend
-      console.log("Provider registration data:", data);
+      const response = await fetch('/api/provider-applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit application');
+      }
+
+      const result = await response.json();
+      console.log("Application submitted successfully:", result);
       
       toast({
         title: "Application Submitted!",
@@ -176,6 +202,7 @@ export default function JoinProviderForm() {
       setServices([{ name: "", duration: "", price: "" }]);
       
     } catch (error) {
+      console.error("Application submission error:", error);
       toast({
         title: "Error",
         description: "There was an error submitting your application. Please try again.",
@@ -264,8 +291,14 @@ export default function JoinProviderForm() {
             <Input
               id="phone"
               type="tel"
+              placeholder="(XXX) XXX-XXXX"
               data-testid="input-phone"
               {...form.register("phone")}
+              onChange={(e) => {
+                const formatted = formatPhoneNumber(e.target.value);
+                e.target.value = formatted;
+                form.setValue("phone", formatted);
+              }}
             />
             {form.formState.errors.phone && (
               <p className="text-sm text-red-600 mt-1">{form.formState.errors.phone.message}</p>
@@ -597,7 +630,7 @@ export default function JoinProviderForm() {
               {...form.register("termsAccepted")}
             />
             <Label htmlFor="termsAccepted" className="text-sm">
-              I agree to the Terms and Conditions and Privacy Policy *
+              I agree to the <a href="/terms-conditions" target="_blank" className="text-primary-custom underline cursor-pointer">Terms and Conditions</a> and <a href="/privacy-policy" target="_blank" className="text-primary-custom underline cursor-pointer">Privacy Policy</a> *
             </Label>
           </div>
           {form.formState.errors.termsAccepted && (

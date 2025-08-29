@@ -9,6 +9,8 @@ import ProviderDetail from "@/pages/provider-detail";
 import JoinProvider from "@/pages/join-provider";
 import CustomerDashboard from "@/pages/customer-dashboard";
 import ProviderDashboard from "@/pages/provider-dashboard";
+import TermsConditions from "@/pages/terms-conditions";
+import PrivacyPolicy from "@/pages/privacy-policy";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -20,6 +22,8 @@ function Router() {
       <Route path="/join-provider" component={JoinProvider} />
       <Route path="/dashboard/customer" component={CustomerDashboard} />
       <Route path="/dashboard/provider" component={ProviderDashboard} />
+      <Route path="/terms-conditions" component={TermsConditions} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>
   );

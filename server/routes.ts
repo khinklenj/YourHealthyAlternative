@@ -124,6 +124,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Provider Applications
+  app.post("/api/provider-applications", async (req, res) => {
+    try {
+      // For now, just log the application data and return success
+      // In production, you would save this to a provider_applications table
+      console.log("Provider application received:", req.body);
+      
+      // Simulate processing time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      res.status(201).json({
+        message: "Application submitted successfully",
+        applicationId: `app_${Date.now()}`,
+        status: "under_review"
+      });
+    } catch (error) {
+      console.error("Provider application error:", error);
+      res.status(500).json({ message: "Failed to submit application" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
