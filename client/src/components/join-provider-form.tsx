@@ -173,7 +173,12 @@ export default function JoinProviderForm() {
   };
 
   const onSubmit = async (data: ProviderRegistrationForm) => {
+    console.log("Form submission started with data:", data);
+    console.log("Form errors:", form.formState.errors);
+    
     try {
+      console.log("Making API request to /api/provider-applications");
+      
       const response = await fetch('/api/provider-applications', {
         method: 'POST',
         headers: {
@@ -182,8 +187,12 @@ export default function JoinProviderForm() {
         body: JSON.stringify(data),
       });
 
+      console.log("API response status:", response.status);
+
       if (!response.ok) {
-        throw new Error('Failed to submit application');
+        const errorText = await response.text();
+        console.error("API error response:", errorText);
+        throw new Error(`Failed to submit application: ${response.status}`);
       }
 
       const result = await response.json();
@@ -203,9 +212,10 @@ export default function JoinProviderForm() {
       
     } catch (error) {
       console.error("Application submission error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       toast({
         title: "Error",
-        description: "There was an error submitting your application. Please try again.",
+        description: `There was an error submitting your application: ${errorMessage}. Please try again.`,
         variant: "destructive",
       });
     }
