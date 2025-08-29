@@ -173,11 +173,18 @@ export default function JoinProviderForm() {
   };
 
   const onSubmit = async (data: ProviderRegistrationForm) => {
-    console.log("Form submission started with data:", data);
-    console.log("Form errors:", form.formState.errors);
+    console.log("🚀 Form submission started with data:", data);
+    console.log("🔍 Form errors:", form.formState.errors);
+    console.log("✅ Form is valid:", form.formState.isValid);
+    
+    // Check if there are validation errors
+    if (Object.keys(form.formState.errors).length > 0) {
+      console.error("❌ Form has validation errors, cannot submit");
+      return;
+    }
     
     try {
-      console.log("Making API request to /api/provider-applications");
+      console.log("📡 Making API request to /api/provider-applications");
       
       const response = await fetch('/api/provider-applications', {
         method: 'POST',
@@ -710,13 +717,48 @@ export default function JoinProviderForm() {
               Next
             </Button>
           ) : (
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-              data-testid="button-submit"
-            >
-              {form.formState.isSubmitting ? "Submitting..." : "Submit Application"}
-            </Button>
+            <div className="space-x-2">
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                data-testid="button-submit"
+              >
+                {form.formState.isSubmitting ? "Submitting..." : "Submit Application"}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  console.log("🧪 Manual test submission");
+                  const testData = {
+                    firstName: "Test",
+                    lastName: "Provider", 
+                    email: "test@example.com",
+                    phone: "(555) 123-4567",
+                    title: "Licensed Acupuncturist",
+                    specialties: ["Acupuncture"],
+                    yearsExperience: "5-10",
+                    licenses: "LAc #12345",
+                    clinicName: "Test Clinic",
+                    address: "123 Main St",
+                    city: "Test City",
+                    state: "CA",
+                    zipCode: "12345",
+                    website: "https://example.com",
+                    services: [{ name: "Acupuncture Session", duration: "60", price: "100" }],
+                    acceptsInsurance: true,
+                    languages: ["English"],
+                    bio: "This is a test bio with more than fifty characters to meet the minimum requirement.",
+                    termsAccepted: true,
+                    backgroundCheck: true
+                  };
+                  onSubmit(testData as ProviderRegistrationForm);
+                }}
+                data-testid="button-test-submit"
+              >
+                Test Submit
+              </Button>
+            </div>
           )}
         </div>
       </form>
