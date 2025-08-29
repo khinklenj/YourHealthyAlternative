@@ -31,15 +31,15 @@ const formatPhoneNumber = (value: string) => {
 // Form validation schema
 const providerRegistrationSchema = z.object({
   // Personal Information
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Please enter a valid phone number"),
+  firstName: z.string().min(2, "First name must be at least 2 characters").min(1, "First name is required"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters").min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email address").min(1, "Email address is required"),
+  phone: z.string().min(10, "Please enter a valid phone number").min(1, "Phone number is required"),
   
   // Professional Information
   title: z.string().min(1, "Professional title is required"),
-  specialties: z.array(z.string()).min(1, "At least one specialty is required"),
-  yearsExperience: z.string().min(1, "Years of experience is required"),
+  specialties: z.array(z.string()).min(1, "Please select at least one specialty"),
+  yearsExperience: z.string().min(1, "Please select your years of experience"),
   licenses: z.string().min(1, "License information is required"),
   
   // Practice Information
@@ -55,18 +55,18 @@ const providerRegistrationSchema = z.object({
     name: z.string().min(1, "Service name is required"),
     duration: z.string().min(1, "Duration is required"),
     price: z.string().min(1, "Price is required")
-  })).min(1, "At least one service is required"),
+  })).min(1, "Please add at least one service"),
   
   // Availability
   acceptsInsurance: z.boolean(),
-  languages: z.array(z.string()).min(1, "At least one language is required"),
+  languages: z.array(z.string()).min(1, "Please select at least one language"),
   
   // Bio and additional info
-  bio: z.string().min(50, "Bio must be at least 50 characters"),
+  bio: z.string().min(50, "Bio must be at least 50 characters (currently has {length} characters)"),
   
   // Agreements
-  termsAccepted: z.boolean().refine(val => val === true, "You must accept the terms and conditions"),
-  backgroundCheck: z.boolean().refine(val => val === true, "Background check consent is required")
+  termsAccepted: z.boolean().refine(val => val === true, "You must accept the terms and conditions to continue"),
+  backgroundCheck: z.boolean().refine(val => val === true, "Background check consent is required to continue")
 });
 
 type ProviderRegistrationForm = z.infer<typeof providerRegistrationSchema>;
@@ -92,6 +92,7 @@ export default function JoinProviderForm() {
 
   const form = useForm<ProviderRegistrationForm>({
     resolver: zodResolver(providerRegistrationSchema),
+    mode: "onChange",
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -164,8 +165,46 @@ export default function JoinProviderForm() {
     form.setValue("services", newServices);
   };
 
-  const nextStep = () => {
-    if (currentStep < 4) setCurrentStep(currentStep + 1);
+  const nextStep = async () => {
+    if (currentStep < 4) {
+      // Trigger validation for current step
+      const isValid = await validateCurrentStep();
+      if (isValid) {
+        setCurrentStep(currentStep + 1);
+      }
+    }
+  };
+
+  const validateCurrentStep = async (): Promise<boolean> => {
+    let fieldsToValidate: (keyof ProviderRegistrationForm)[] = [];
+    
+    switch (currentStep) {
+      case 1:
+        fieldsToValidate = ['firstName', 'lastName', 'email', 'phone', 'title', 'specialties', 'yearsExperience', 'licenses'];
+        break;
+      case 2:
+        fieldsToValidate = ['clinicName', 'address', 'city', 'state', 'zipCode', 'languages'];
+        break;
+      case 3:
+        fieldsToValidate = ['services'];
+        break;
+      case 4:
+        fieldsToValidate = ['bio', 'termsAccepted', 'backgroundCheck'];
+        break;
+    }
+
+    // Trigger validation for specific fields
+    const result = await form.trigger(fieldsToValidate);
+    
+    if (!result) {
+      toast({
+        title: "Missing Required Fields",
+        description: "Please fill in all required fields before proceeding to the next step.",
+        variant: "destructive",
+      });
+    }
+    
+    return result;
   };
 
   const prevStep = () => {
