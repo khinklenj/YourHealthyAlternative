@@ -218,7 +218,12 @@ export default function JoinProviderForm() {
     
     // Check if there are validation errors
     if (Object.keys(form.formState.errors).length > 0) {
-      console.error("❌ Form has validation errors, cannot submit");
+      console.error("❌ Form has validation errors, cannot submit:", form.formState.errors);
+      toast({
+        title: "Form Validation Error",
+        description: "Please check all required fields and agreements before submitting.",
+        variant: "destructive",
+      });
       return;
     }
     
@@ -683,7 +688,8 @@ export default function JoinProviderForm() {
             <Checkbox
               id="termsAccepted"
               data-testid="checkbox-terms"
-              {...form.register("termsAccepted")}
+              checked={form.watch("termsAccepted")}
+              onCheckedChange={(checked) => form.setValue("termsAccepted", !!checked)}
             />
             <Label htmlFor="termsAccepted" className="text-sm">
               I agree to the <a href="/terms-conditions" target="_blank" className="text-primary-custom underline cursor-pointer">Terms and Conditions</a> and <a href="/privacy-policy" target="_blank" className="text-primary-custom underline cursor-pointer">Privacy Policy</a> *
@@ -697,7 +703,8 @@ export default function JoinProviderForm() {
             <Checkbox
               id="backgroundCheck"
               data-testid="checkbox-background"
-              {...form.register("backgroundCheck")}
+              checked={form.watch("backgroundCheck")}
+              onCheckedChange={(checked) => form.setValue("backgroundCheck", !!checked)}
             />
             <Label htmlFor="backgroundCheck" className="text-sm">
               I consent to a background check and license verification *
