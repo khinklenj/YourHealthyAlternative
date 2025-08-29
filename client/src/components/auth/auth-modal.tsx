@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import LoginForm from "./login-form";
 import RegisterForm from "./register-form";
@@ -11,6 +11,11 @@ interface AuthModalProps {
 
 export default function AuthModal({ isOpen, onClose, defaultTab = 'login' }: AuthModalProps) {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>(defaultTab);
+
+  // Update activeTab when defaultTab prop changes
+  useEffect(() => {
+    setActiveTab(defaultTab);
+  }, [defaultTab]);
 
   const handleSuccess = () => {
     onClose();

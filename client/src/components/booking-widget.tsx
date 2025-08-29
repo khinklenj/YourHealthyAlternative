@@ -43,7 +43,7 @@ export default function BookingWidget({ provider, services, onAuthRequired }: Bo
   useEffect(() => {
     if (isAuthenticated && user) {
       // Handle nested user object structure
-      const userData = user.user || user;
+      const userData = user;
       setPatientName(`${userData.firstName || ''} ${userData.lastName || ''}`.trim());
       setPatientEmail(userData.email || "");
       setPatientPhone(formatPhoneNumber(userData.phone || ""));
