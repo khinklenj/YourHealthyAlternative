@@ -6,6 +6,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  phone?: string;
   userType: 'customer' | 'provider';
   providerId?: string;
 }
